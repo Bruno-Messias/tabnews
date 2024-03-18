@@ -12,7 +12,7 @@ PAra definir a versão que queira usar do node, deve definir o default do sistem
 comando: nvm alias default <o nome da versão> (Ex. nvm alias default lts/hydrogen)
 
 Arquivo especial: .nvmrc -> gerencia as dependências e versão do projeto (RC -> Run Commands)
-    Adicionando o arquivo e na primeira linha o nome da versão , como o lts/hydrogen, todo que baixarem o repositório e rodarem o comando nvm install irão baixar a versão correta do sistema.
+Adicionando o arquivo e na primeira linha o nome da versão , como o lts/hydrogen, todo que baixarem o repositório e rodarem o comando nvm install irão baixar a versão correta do sistema.
 
 Versão Next js:
 inicio do projeto: comando npm init
@@ -45,7 +45,7 @@ As paginas estão dentro dos index e componentes reacts são apenas componentes 
 
 ```js
 function Home() {
-    return <h1>Teste</h1>
+  return <h1>Teste</h1>;
 }
 
 export default Home;
@@ -73,7 +73,7 @@ Inclusive, o item 2 tem uma palavra especial para poder usar via terminal junto 
 Commit sem alteração de código, apenas para marcação
 Também se quiser fazer um commit apenas para marcar uma situação ou momento no desenvolvimento, pode ser usado, caso queira fechar a issue #4, o seguinte comando:
 
-git commit --allow-empty -m "Fixes  #4"
+git commit --allow-empty -m "Fixes #4"
 Lembrando que o Fixes pode ser trocado por qualquer palavra-chave referida acima, só que ao fazer alguns testes, pelo menos no terminal do VSCode usando sistema iOs, só funcionava o fechamento da issue no github quando usava a palavra-chave ao lado do #4, se usar espalhado na mensagem do commit não fecha a issue, por exemplo:
 
 git commit -m "update: README CursoDev progress: Close Dia001 #4" Não fechou
@@ -109,6 +109,170 @@ Comandos interessante:
 - git reset HEAD~1 : para voltar o ultimo commit
 - git push -f
 
- Dica: caso você deseje emendar um commit sem alterar a mensagem, é possível passar a flag --no-edit. Com isso, a mensagem anterior será preservada e a tela de edição não será aberta. Ex: git commit --amend --no-edit
+Dica: caso você deseje emendar um commit sem alterar a mensagem, é possível passar a flag --no-edit. Com isso, a mensagem anterior será preservada e a tela de edição não será aberta. Ex: git commit --amend --no-edit
 
-## Dia 7
+## Dia 7 e 8
+
+Deploy na vercel
+
+Programação Orgânica vs Impressora 3D
+Não fazer todo o sistema de uma vez e sim construindo as funções aos poucos
+
+## Dia 9
+
+Organização de Tarefas e Planejamento
+
+> Fazer muito com pouco
+
+- Nível 1: Ser lembrado individualmente
+  - Menor custo de produção
+  - Menor tempo de aquecimento
+- Nível 2: Ser lembrado em grupo (Distribuição)
+  - Kanbam
+  - Quadro Branco
+  - Marcar o progresso
+- Nível 3: Expandir conhecimento (Detalhar as tarefas)
+  - Trello
+  - Github
+- Nível 4: Gerar Métricas (Medir Produtividade)
+  - Mais para o gestor dela
+  - Envolve um processo mais complexo e burocrático
+  - Trazer as barreiras técnicas e negócio -> cuidar de usar as métricas como fom e não como um meio (utilizar as métricas como objetivo)
+  - pode gerar um incentivo desalinhado
+  - Ser o mais simples possível quando reportar a alguém
+
+---
+
+### Como criar Milestones?
+
+Preparação:
+
+Fazer um discovery e gerar um inception do projeto.
+Fazer a validação e definição do escopo do projeto.
+Criar milestones em funcionalidades que serão implementadas.
+As milestones podem ser alteradas dependendo de quão complexas são durante o desenvolvimento podendo ser passadas para outras ou sendo atrasadas.
+Definir o MVP do lançamento
+Avaliar a aceitação do mercado e anotar feedbacks que deveriam ser alterados
+
+Milestones do tab news:
+
+- Rascunho do projeto e idealizações -> Inception
+- Compra do domínio e criação do repositório.
+- Definição das tecnologias à serem usadas e quais features quer implementar e anotar essas ideias.
+- Desenvolvimento da página inicial e dos mecanismos de publicação e comentários.
+- Desenvolvimento do mecanismo do tabcoin e login do usuário.
+- Definição do design e do UX/UI
+- Rodada de testes e atualizações de segurança e performance.
+- Deploy do site e recebimento de feedback dos usuários
+- Analisar os feedbacks e implementá-los.
+
+Dopamina e Issues:
+
+- Estágio 1: Início -> Antecipação de algo positivo pode acontecer
+  - Título da Issue
+- Estágio 2: Progresso -> Receber uma confirmação que o algo que esta fazendo esta dando certo e tendo progresso
+- Estágio 3: Conclusão -> Receber a conclusão do mundo que deu tudo certo! Dopamina final!
+
+## Dia 10
+
+Processo de definir estilização e formatação de códigos
+
+Utilizar o EditorConfig para poder manter o editor igual -> funciona para configurar o editor
+Utilizar o Prettier -> Para ser mais profissional não usar a extensão e sim instalar como um pacote no npm:
+
+Comando: `npm install prettier -D` -> esse -D cria uma dependência no _package.json_ mas apenas em DEV não é necessário para outros ambientes como produção e homologação
+
+É possível criar um novo script no _package.json_ para rodar o prettier:
+
+```json
+{
+  "lint:check": "prettier --check .",
+  "lint:fix": "prettier --write ."
+}
+```
+
+Esse `lint:check` script vai rodar o check de conferência em todos os arquivos
+Esse `lint:fix` script vai rodar o prettier em todos os arquivos e arrumar a estilização.
+
+É possível ser automático utilizando a extensão do VScode para isso, lembrando de configurar o extensão para isso.
+
+---
+
+**Comentário Interessante:**
+
+Olá pessoal, comecei a usar o code spaces com a sincronização. Cada novo code space criado, mesmo que os anteriores ainda estejam 'funcionando' vai compartilhar as mesmas configurações, como se fosse o mesmo VsCode. Até aí não é novidade, (talvez pra alguns, como eu) inclusive o próprio settings.json será o mesmo para todos os codespaces que forem criados.
+Acontece que eu comecei a estudar Flask e Python, aplicando as aulas do curso em outra linguagem e framework, e infelizmente o Prettier não suporta Python. Para isso, o "Prettier" do Python é o `autopep8` ou `black`, para quem tiver interesse. É só instalar o plugin na loja de plugins do VsCode.
+Depois de tentar configurar os dois formatadores ao mesmo tempo no .settings, li os posts e vi que foi um assunto bem comentado há alguns meses atrás. Segui o post do renansilva15 e coloquei o formatador do Python junto com as outras configurações. Ficou assim (versão curta):
+
+```json
+  "window.menuBarVisibility": "classic",
+  "workbench.colorTheme": "Default Dark Modern",
+  "git.autofetch": true,
+  "editor.formatOnSave": true,
+  "files.autoSave": "off",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+```
+
+As configurações fora dos colchetes são globais, e as dentro dos colchetes específicas para a linguagem. Útil para quem quer usar as mesmas configs em vários projetos diferentes sem ter que ficar configurando sempre as mesmas coisas.
+
+Segue a versão completa:
+
+```json
+{
+  "window.menuBarVisibility": "classic",
+  "workbench.colorTheme": "Default Dark Modern",
+  "git.autofetch": true,
+  "editor.formatOnSave": true,
+  "files.autoSave": "off",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[angular]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[graphql]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[handlebars]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
+```
+
+---
+
+Configurar o `.prettierignore` para que o prettier não rodar o fiz nos aquivos do _.next_.
+
+## Dia 11 e 12 - DNS
