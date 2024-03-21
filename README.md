@@ -276,3 +276,21 @@ Segue a versão completa:
 Configurar o `.prettierignore` para que o prettier não rodar o fiz nos aquivos do _.next_.
 
 ## Dia 11 e 12 - DNS
+
+Instalar Dig - `sudo apt install dnsutils`
+Usando DIG - `dig fintab.com.br A` -> esta requisitando o A Record do Domínio fintab.com.br
+Adicionando a opção `+trace` em `dig fintab.com.br A +trace` traz todo o caminho realizado para encontrar o record
+
+Comentário Interessante
+
+---
+
+Olá pessoal. Não sei se já foi dito/feito alguma coisa parecida aqui nos comentários, mas uma coisa bacana para colocar em prática essa aula de DNS e ficar também como um chorinho, é para quem já usa o novo app Bluesky(dos antigos criadores do finado Twitter).
+
+Lá você ganha um handle o famoso @ que será uma forma de identificar o teu usuário dentro da plataforma. Por padrão virá algo do tipo username.bsky.social, esse handle é um domínio. Se quiser, você pode saber mais aqui, em resumo é um tal de protocolo AT. Então como o handle é um domínio, caso você possua um domínio próprio, se desejar, poderá alterar o seu handle para o seu domínio, no meu caso alterei para rogovski.dev.
+
+E para fazer, vamos usar os super-poderes apresentados pelo @filipedeschamps nessas últimas aulas sobre DNS.
+
+## Dia 13
+
+[Museu Tab News](https://www.tabnews.com.br/museu)
