@@ -294,3 +294,52 @@ E para fazer, vamos usar os super-poderes apresentados pelo @filipedeschamps nes
 ## Dia 13
 
 [Museu Tab News](https://www.tabnews.com.br/museu)
+
+[Teoria do MacDonald's](https://jonbell.medium.com/mcdonalds-theory-9216e1c9da7d)
+
+Status Page:
+
+[Vercel](https://www.vercel-status.com/)
+[AWS](https://health.aws.amazon.com/health/status)
+[GitHub](https://www.githubstatus.com/)
+
+## Dia 14
+
+Início _Milestone 1: Fundação_
+
+Arquitetura e Software
+
+Começar a visualizar pelo frontend -> Criar POCs das visualizações (Aprender usar o Figma estudar UX)
+A partir das POC começar a pensar na tecnologias que serão utilizadas
+
+Overengineering -> Quando vc complica muito as coisas
+
+Sempre começar com algo mais simples e depois deixar complexo caso seja necessário
+
+Comentário Interessante
+
+---
+
+Foco na simplicidade
+Lembrar sobre a teoria McDonald's nessa hora é bom. Afinal, a solução por mais bonita, precisa funcionar e ser modificável.
+
+Começar algo pequeno e simples ao invés de algo grande
+Evitar começar logo com um grande pedaço de resultado não vai te ajudar. E não vai ser nenhum pouco legal brigar contra isso.
+
+O senso de engenharia vem com a experiência
+Infelizmente é mais fácil começar algo complexo devido a entropia do universo. Mas com certeza compensa começar, ou mesmo decidir, iniciar algo simples. E evoluir, se precisar.
+
+A principal característica de um software bom é: modificável!
+O foco que todos deveriam ter. A potência que um time tem de mudar um código no curto, médio e longo prazo.
+
+Conclusão
+Se o foco for "o software ser modificável", todas as outras variáveis que o projeto precisa responder naturalmente vão se organizando. A solução precisa se adaptar ao problema.
+
+---
+
+Definição de Arquitetura:
+MVC - Model View Controller
+
+Organização de Pasta:
+
+- Separar aquivos e pastas dependendo do escopo de cada parte do projeto
