@@ -340,6 +340,75 @@ Se o foco for "o software ser modificável", todas as outras variáveis que o pr
 Definição de Arquitetura:
 MVC - Model View Controller
 
+> Uma arquitetura simples + uma boa organização é o mais eficiente
+
+[Keep Simple (KISS)](https://dev.to/kwereutosu/the-k-i-s-s-principle-in-programming-1jfg)
+
+Arquitetura Selecionada -> MVC
+
 Organização de Pasta:
 
 - Separar aquivos e pastas dependendo do escopo de cada parte do projeto
+
+Esqueleto das páginas
+
+📦 root
+┣ 📂 pages
+┃ ┗ 📜 index.js
+┣ 📂 models
+┃ ┣ 📜 user.js
+┃ ┣ 📜 content.js
+┃ ┗ 📜 password.js
+┣ 📂 infra
+┃ ┗ 📜 database.js
+┃ ┣ 📂 migrations
+┃ ┣ 📂 provisioning
+┃ ┃ ┣ 📂 staging
+┃ ┃ ┣ 📂 production
+┣ 📂 tests
+
+[ASCII Tree Generator](https://ascii-tree-generator.com/)
+
+Recomendação: Domain-driven Design (DDD) do Eric Evans e Clean Code
+
+---
+
+POC vs MVP
+
+---
+
+PoC: Proof of Concept
+Menor custo para poder escolher uma direção? Quais provas me compravam que isso vai ou não funcionar?
+Discovery e Brainstorm
+
+MVP: Minimum Viable Product
+Se arriscar num desses PoCs e começar a desenhar o produto
+
+## Dia 15
+
+Testes Automatizados
+
+Test Runner: [Jest](https://jestjs.io/)
+
+Instalando o jest como dependência de desenvolvimento: `npm install --save-dev jest@29.6.2`
+
+Adicionar um novo script:
+
+```json
+{
+  "test": "jest",
+  "test:watch": "jest --watch"
+}
+```
+
+Estudar JavaScript e ECMAScript: [Curso de JavaScript](https://www.youtube.com/playlist?list=PLHz_AreHm4dlsK3Nr9GVvXCbpQyHQl1o1)
+
+Arquivo de test que o JEst entente: `arquivo.test.js`
+
+Exemplo de test:
+
+```js
+test("Espero que 1 seja 1", () => {
+  expect(1).toBe(1);
+});
+```
