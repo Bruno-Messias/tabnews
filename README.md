@@ -412,3 +412,24 @@ test("Espero que 1 seja 1", () => {
   expect(1).toBe(1);
 });
 ```
+
+MVC
+Model -> É uma caixa de ferramentas onde estão localizadas as funções da sua aplicação, base do sistema
+
+Exemplo de modelo:
+
+```js
+function somar(argumento1, argumento2) {
+  return argumento1 + argumento2;
+}
+
+exports.somar = somar; //Exporta a sua função para o mundo de fora, 
+```
+
+Padrão CommonJS -> ECMAScript Modules -> o Jest não suporta esse tipo -> Realizar o Transpilling para converter os modelos
+
+TDD -> Os testes lideram os desenvolvimentos orientam o desenvolvimento -> é um exercício 'complicado não começar por ele
+
+Recomendação: _Craftsmanship Limpo do Robert Martin_
+PEsquisar sobre: _Gherkin_
+[Testes Djan (Python)](https://docs.djangoproject.com/en/5.0/topics/testing/overview/)
