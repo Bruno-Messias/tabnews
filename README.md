@@ -109,7 +109,8 @@ Comandos interessante:
 - git pull
 - git restore --staged nome-arquivo : remover da stage area
 - git reset HEAD~1 : para voltar o ultimo commit
-- git push -f
+- git push -f: forçar a aualização do git commit local
+- git mv [arquvivo original] [novo arquivo]: move o arquivo ou renomeia um arquivo no sistema do git (EX. git mv .env .env.development)
 
 Dica: caso você deseje emendar um commit sem alterar a mensagem, é possível passar a flag --no-edit. Com isso, a mensagem anterior será preservada e a tela de edição não será aberta. Ex: git commit --amend --no-edit
 
@@ -683,6 +684,7 @@ Criar o arquivo `.env` para gerenciar as variáveis de ambiente na raiz do proje
 Comentário interessante:
 
 ---
+
 Para transformar as palavras em maiúsculas, sem ter que digitar manualmente, basta selecionar a(s) palavra(s), apertar CTRL + SHIFT + P para abrir a barra de comandos e buscar por uppercase que irá aparecer a opção Transform to Uppercase.
 
 ---
@@ -695,3 +697,350 @@ Adicionar uma propriedade no compose.yaml:
 env_file:
   - ../.env
 ```
+
+## Dia 19
+
+Não é problema subir o arquivo `.env` pois a Vercel vai sobrescrever essas variáveis para os valores de produção e a aplicação vai se tornar segura.
+
+É mais semântico criar um arquivo `.env.development` para separar as variáveis para desenvolvimento.
+
+### Como salvar um commit com informações confidenciais?
+
+[Doc do Github](https://docs.github.com/pt/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)
+
+Trocar a senha o mais rápido possível e alterar o hash do commit e sim vai dar um problema e vai ser necessário dar um push force.
+
+[Comentário Interessante](https://www.tabnews.com.br/maion/vazei-meus-dados-e-agora-veja-como-remover-dados-confidenciais-commitados)
+
+---
+
+Para quem quiser saber como eu usei o BFG para corrigir meu repositório que havia vazado dados em dois arquivos: .env e cred.json
+
+1 - Baixei o arquivo .jar do BFG Repo-Cleaner do repositório e coloquei na mesma pasta que clonarei o projeto.
+
+2 - Clonei meu repositório com o --mirror:
+git clone --mirror git://example.com/repo_problemático.git
+
+3 - Apaguei os arquivos com os comandos:
+java -jar bfg-1.14.0.jar --delete-files cred.json repo_problemático.git
+e
+java -jar bfg-1.14.0.jar --delete-files .env repo_problemático.git
+
+4 - entrar na pasta do repositório problemático:
+cd repo_problemático.git
+
+5 - Rodar os comandos conforme a documentação do BFG:
+git reflog expire --expire=now --all && git gc --prune=now --aggressive
+
+6 - git push
+
+---
+
+### Lapidações de Absolute Imports
+
+Root Path -> deve ser configurado para não ficar navegando relativo entre os arquivos -> arquivo de configuração `jsconfig.json`
+Desnecessário aquivo -> Ver como funciona o `AbsoluteImports`
+
+### Adicionando mais scripts para subir o ambiente de desenvolvimento
+
+Como rodar mais de um script no comando `npm run dev`:
+
+```json
+"dev": "npm run services:up && next dev",
+```
+
+Separar por && os comandos a serem rodados no terminal um logo depois do outro.
+
+Comentário interessante:
+
+---
+
+Fala galera! Que aula massa filipedeschamps!
+
+Seguindo na mesma pegada em lapidar esses scripts eu me peguei pensando em criar um script que fosse o contrário do comando npm run dev e sim um npm run stop que fecharia o docker e a aplicação Next de uma vez só, e acabei criando o seguinte script:
+
+"stop": "npm run services:down && kill $(lsof -t -i:3000)"
+Onde ese último comando mata a tarefa (kill) de executar o servidor na porta 3000. Mas isso vem com uma desvantagem ele não funciona em Windows, apenas em SOs Unix-like como o Linux, o MacOS e o nosso codespaces.
+
+Não sei se essa é a melhor abordagem para isso também, se alguém tiver uma sugestão para melhorar eu agradeceria!
+
+EDIT:
+
+Depois vendo os comentário de felipeolliveira e o script montado por Hahnemann acabei melhorando ainda mais a funcionalidade do comando npm run dev usando um script em bash init-dev.sh dessa forma:
+
+```bash
+#!/bin/bash
+
+function cleanup {
+npm run services:down
+kill $(lsof -t -i:3000)
+exit 0
+}
+
+trap cleanup INT
+
+npm run services:up && next dev
+```
+
+Agora ao dar `ctrl+c` no terminal tanto o Docker quanto o next serão eliminados sozinho
+
+---
+
+## Dia 20
+
+### FInalizando a API `status`
+
+Controller só serve para entrar a requisição do usuário -> Ele pede para o model para pegar os valores no Model -> Devolve para o controller -> que Envia para a View que se responsabiliza em devolver a resposta para o usuário.
+
+Proposta! Programar tudo dentro dos controller e assim que for necessário um reaproveitamento de código ai sim criar os models
+
+Convencão:
+Variáveis de sistema serem cammelCase, exemplo `updatedAt`
+Variáveis de API serem snake_case, exemplo `update_at`
+
+O `new Date().toISOString()` cria um novo objeto de Date time
+e sem o `new` apenas retornar a string com o valor -> pesquisar melhor essas diferenças.
+
+Novo tipo de test:
+`expect(responseBody.updated_at).toBeDefined();`: Espera que seja definido, ou seja, que exista
+`expect(responseBody.updated_at).toEqual(parseUpdateAt);`: Espera que sejam valores iguais -> usado para arrays e objetos
+
+### Estágios do TDD
+
+Red: Adiciona a condição do teste
+-> Não é atendido, pois não existe a implementação
+
+Green: Implementação concreta
+-> resolver o teste e habilitando o refactor
+
+Refactor:
+Estágio onde continua no extremos do testes e melhorar o código deixando os testes melhores.
+
+SQL:
+`SHOW` mostra as configurações do banco de dados
+
+Queries:
+Query sem parâmetros
+Query com parâmetros fixos
+Query com parâmetros dinâmicos -> pode dar problema de SQL Injections
+
+Locais onde pode ser capturado informações sobre a quantidade de conexões abertas:
+pg_stat_activity (em tempo real) e pg_stat_database -> duas Views
+
+### SQL Injection
+
+Template Literals -> usando Placeholders: `SELECT count(*)::int FROM pg_stat_activity WHERE datname = '${databaseName}';`
+
+Caso queiro testar apenas um test num arquivo de test apenas adicionar um `test.only`:
+
+```js
+test.only("Test SQL Injection", async () => {
+  const response = await fetch("http://localhost:3000/api/v1/status");
+});
+```
+
+Não permitir acesso ao banco através de dados pela URL
+
+Resolvido pelo próprio módulo do node-postgres
+
+`console.error()` -> Faz o console como um erro na API
+
+## Dia 21 - Banco de Dados em produção
+
+### Logs da Vercel
+
+### Criando Bancos de Dados em produção
+
+- ElephantSQL: [ElephantSQL](https://www.elephantsql.com/)
+
+Novo comando git:
+`git restore .`: Restaura tudo que esta em modified até o ultimo commit
+
+- Neon: [Neon](https://neon.tech/)
+
+Conexão segura no Postgres:
+
+```js
+const client = new Client({
+  host: process.env.POSTGRES_HOST,
+  port: process.env.POSTGRES_PORT,
+  user: process.env.POSTGRES_USER,
+  database: process.env.POSTGRES_DB,
+  password: process.env.POSTGRES_PASSWORD,
+  ssl: true,
+});
+```
+
+Apenas necessário adicionar a propriedade `ssl:true`
+No entanto no docker não aceita ssl então se usa isso:
+`ssl:process.env.NODE_ENV === 'development' ? false : true,`
+
+- DigitalOcean: [DigitalOcean](https://www.digitalocean.com/)
+
+## Dia 22 - Migrations
+
+Migrations -> Versionamento para os BDs
+
+Existem inúmeros sistemas de migrations para inúmeras tecnologias
+
+C#: [Entity Framework](https://learn.microsoft.com/pt-br/ef/),[Fluent Migrations](https://fluentmigrator.github.io/)
+Python: [Django migrations](https://docs.djangoproject.com/en/5.0/topics/migrations/)
+Java: [Flyway](https://documentation.red-gate.com/flyway/flyway-cli-and-api/tutorials/tutorial-java-based-migrations)
+Node: [node-pg-migrate](https://github.com/salsita/node-pg-migrate), [drizzle ORM](https://orm.drizzle.team/), [Prisma](https://www.prisma.io/docs/orm/prisma-migrate)
+
+Framework de migrations
+
+- Sequelize V6
+- [node-pg-migrate](https://www.npmjs.com/package/node-pg-migrate)
+
+Usando node-pg-migrate:
+
+Instalando: `npm install node-pg-migrate@6.2.2`
+
+Criando novo script e configurar o padrão das migrations `infra/migrations` ("migration:create"), tbm criar um script onde será executado os comandos de migração ("migration:up")
+
+```json
+{
+  "migration:create": "node-pg-migrate --migrations-dir infra/migrations create",
+  "migration:up": "node-pg-migrate -m infra/migrations --envPath .env.development up"
+}
+```
+
+O comando cria um arquivo com um UNIX timestamp para que a migration seja executados na ordem de criação.
+
+Deve ser adicionado as credenciais do banco, para isso é instalado o package `dotenv`: `npm install dotenv@16.4.4`, oq libera a opção `--envPath`.
+
+Precisa criar a variável DATABASE_URL para que o comando possa se conectar no banco de dados, no seguinte formato:
+
+```.env
+DATABASE_URL=postgres://user:password@host:port/database
+```
+
+## Dia 23 - Continuação de Migrations
+
+Criado novo endpoint `/migrations`
+
+Mudança dos testes, quero rodar apenas um dos testes e não todos durante o desenvolvimento, para isso basta rodar o comando no terminal `npm run test:watch -- migrations` que só vai procurar testes relacionados a migrations.
+
+Existe um problema em que diferentes OS a forma encontrar o caminho pode diferir, para isso é bom usar a funcionalidade de concatenação do Node que vai fazer isso para vc automaticamente, mesmo em Linux ou em Windows.
+
+```js
+import { join } from "node:path";
+
+join("infra", "migrations");
+```
+
+Comentário Interessante
+
+---
+
+Caso alguém esteja com o mesmo problema que eu tava em relação ao JEST e arquivos .test.js que NÃO tem intellisense, ou seja, você não sabe se o comando realmente tem o parâmetro que você está digitando
+Exemplo:
+sem_intellisense
+
+Você pode simplesmente instalar a seguinte lib:
+
+`npm i @types/jest -D`
+
+E agora seus arquivos `.test.js` do JEST estarão com intellisense, dessa forma:
+com_intellisense
+
+Pra quem usa TypeScript já está acostumado com isso, mas pra quem só usa JS ou ainda está aprendendo como funciona as coisas a partir do curso, é uma boa dica pra não ficar sofrendo digitando errado ou sem saber quais são as propriedade que o Jest aceita.
+
+---
+
+Problemas de rodar migrations na direção down:
+[Pitfall with SQL rollbacks](https://octopus.com/blog/database-rollbacks-pitfalls)
+[How Overflow do the deployment?](https://nickcraver.com/blog/2016/05/03/stack-overflow-how-we-do-deployment-2016-edition/)
+
+-> Mudando parar o Dev container: [Gitpod Tutorial](https://github.com/adspacheco/nextjs-dev-container)
+
+REGEX -> `migration.post` -> apenas seleciona o método POST nos tests de migrations
+
+Erro `405` método não permitido!
+
+Como melhorar os testes automatizados a bancos, não limpar os dados:
+[Não limpar o banco para testes](https://calpaterson.com/against-database-teardown.html)
+[Hacker News](https://news.ycombinator.com/item?id=29764792)
+
+Comentário Interessante
+
+---
+
+O que é um JSDoc?
+Resumindo de forma simples, é uma forma de você comentar um código de uma forma especial, dizendo o que uma função recebe como parâmetro e qual seu retorno.
+
+Como sabemos, Javascript não possui tipos, pois é uma linguagem dinamicamente tipada, o que é bom para algumas coisas e péssimas para outras, principalmente para o intellisense e LSP.
+
+Adicionando um JSDoc, além de vc realmente "documentar" uma função do código, faz com que o editor de código saiba quais métodos algum parâmetro aceita baseado no seu tipo.
+
+E como fazemos isso?
+Primeiro precisamos importar os tipos que vamos usar, que nesse caso é:
+
+- NextApiRequest
+- NextApiResponse
+
+E pra fazer isso é bem simples, apenas adicione essa linha no seu arquivo:
+
+```js
+import { NextApiRequest, NextApiResponse } from "next";
+```
+
+Depois vamos criar o JSDoc, e pra fazer isso você tem duas formas:
+
+- Criar manualmente
+- Receber uma ajudinha do VSCode
+
+Das duas formas, vá acima da função no editor e digita "/\*\* " e aceite o autocomplete do VScode, que vai criar um JSdoc pra você automaticamente com os parâmetros da função abaixo.
+
+Vai ficar algo parecido com isso
+
+Agora, aonde tem \* vamos trocar pelo tipo que importamos antes.
+E vai fica mais ou menos assim:
+
+```js
+import { NextApiRequest, NextApiResponse } from "next";
+
+/**
+ * @param {NextApiRequest} request
+ * @param {NextApiResponse} response
+ */
+```
+
+Para fazer manualmente é só você escrever esse JSDoc na mão mesmo, acima da função.
+
+Explicando como ele funciona:
+Basicamente, esse JSDoc é composto por:
+
+- `@param`
+- `@returns`
+
+O `@param` define quais parâmetros a função tem e qual será o seu tipo
+o `@returns` define qual o retorno da função, que nesse caso não tem nada, então ele assume que o retorno é VOID, ou seja, não retorna nada.
+
+E é basicamente isso, essa é a explicação de como tudo isso dai funciona, foi bem prolixo e acho que a maioria das pessoas estariam interessadas só na forma de resolver o problema, mas enfim. Espero ter ajudado.
+
+---
+
+## Dia 24
+
+Adicionar a opção do jest rodar os testes de forma sequencial:
+
+ALteração nos scripts:
+
+```json
+{
+  "test": "jest --runInBand",
+  "test:watch": "jest --watchAll --runInBand"
+}
+```
+
+Necessário Traspilar os códigos que são entendidos pelo Next e enviar para o Jest poder tbm ter a mesma capacidade, por ser mais limitado
+
+Criando um novo arquivo de configuração `jest.config.js`
+
+Comando para excluir todo o banco: `DROP SCHEMA PUBLIC CASCADE;`
+
+Nova função para o Jest `beforeAll(cleanDatabase)` ele executará a função `cleanDatabase` antes de tudo, do test no caso
+
+Código `201` significa que algo foi criado!
