@@ -1044,3 +1044,27 @@ Comando para excluir todo o banco: `DROP SCHEMA PUBLIC CASCADE;`
 Nova função para o Jest `beforeAll(cleanDatabase)` ele executará a função `cleanDatabase` antes de tudo, do test no caso
 
 Código `201` significa que algo foi criado!
+
+## Dia 25
+
+Adicionar a possibilidade de concatenar variáveis de ambiente.
+
+Adicionar um novo pacote : `npm install dotenv-expand@11.0.6`
+
+Dica: para exportar o valor não precisa ser assim:
+
+```js
+export default {
+  query: query,
+  getNewClient: getNewClient,
+};
+```
+
+Quando a propriedade e o valor serem os mesmos pode simplificar usando apenas um valore no export:
+
+```js
+export default {
+  query,
+  getNewClient,
+};
+```
