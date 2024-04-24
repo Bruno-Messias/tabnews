@@ -1068,3 +1068,15 @@ export default {
   getNewClient,
 };
 ```
+
+## Dia 26 - Branch
+
+Comando criar uma nova branch: `git branch <nome da branch>`
+Comando criar e fazer checkout para uma nova branch criando ela: `git checkout -b <nome da branch>`
+Comando para mudar de branch: `git checkout <nome da branch>` ou `git switch <nome da branch>`
+
+Após criar um branch deve ser publicada essa branch no repositório local.
+Comando para publicar branch no repositório origin: `git push --set-upstream origin <nome da branch>`
+Ela vai realizar o link com a branch no origin, pois o nome da branch é flexível para ser diferente
+
+Curl com formatador de json: `curl <endpoint> | python3 json.tool`, já vai formatar como json a saída
