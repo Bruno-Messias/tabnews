@@ -1093,4 +1093,11 @@ Ele esta agr pendurado, corre o risco de sumir com o garbage collection do git e
 
 PAra resolver esse negócio pendurado pasta apontar uma branch para ele, mesmo caminho de criar uma nova branch, pois a partir desse commit podemos criar uma nova branch:
 
-`git checkout -b fix-migrations-endpoint`
+`git checkout -b <nome da branch>`
+
+E caso vc não tem mais o hash do commit?
+Apenas usar o git reflog -> registra todas as referências realizadas no repositório, da pra encontrar o hash perdido
+
+7e769fe
+
+Comando expandido para criar logo a branch a partir do hash: `git checkout -b <nome da branch> <hash de referencia>`
