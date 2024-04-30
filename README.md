@@ -1080,3 +1080,8 @@ Comando para publicar branch no repositório origin: `git push --set-upstream or
 Ela vai realizar o link com a branch no origin, pois o nome da branch é flexível para ser diferente
 
 Curl com formatador de json: `curl <endpoint> | python3 json.tool`, já vai formatar como json a saída
+Outra opção: `curl -s <endpoint> | jq`
+
+## Dia 27 - Merges
+
+Comando para deletar uma branch: `git branch -d <nome da branch>` ou `git branch -D <nome da branch>` para forçar o delete
