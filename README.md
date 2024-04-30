@@ -1085,3 +1085,12 @@ Outra opção: `curl -s <endpoint> | jq`
 ## Dia 27 - Merges
 
 Comando para deletar uma branch: `git branch -d <nome da branch>` ou `git branch -D <nome da branch>` para forçar o delete
+
+Da pra fazer o checkout para um commit realizado com o começo de um hash dado para vc
+como por exemplo: git checkout 583e255
+
+Ele esta agr pendurado, corre o risco de sumir com o garbage collection do git e deletar permanente de verdade -> um exemplo objetos pendurados que ficaram por mais de 14 dias sem modificações
+
+PAra resolver esse negócio pendurado pasta apontar uma branch para ele, mesmo caminho de criar uma nova branch, pois a partir desse commit podemos criar uma nova branch:
+
+`git checkout -b fix-migrations-endpoint`
