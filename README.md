@@ -1101,3 +1101,12 @@ Apenas usar o git reflog -> registra todas as referências realizadas no reposit
 7e769fe
 
 Comando expandido para criar logo a branch a partir do hash: `git checkout -b <nome da branch> <hash de referencia>`
+
+### Realizar o Merge
+
+Modo Fast-forward: Move o Head para a Main, e atualiza o ponteiro para o commit alvo
+
+mudar para a branch que vc gostaria de o merge fizesse efeito -> o destino do código
+comando: `git merge <nome-da-branch>`
+
+Novo comando para outra visualização dos logs: `git log --graph`
