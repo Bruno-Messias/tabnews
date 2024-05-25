@@ -1110,3 +1110,47 @@ mudar para a branch que vc gostaria de o merge fizesse efeito -> o destino do c�
 comando: `git merge <nome-da-branch>`
 
 Novo comando para outra visualização dos logs: `git log --graph`
+
+## Dia 28
+
+Metodologia ágil
+
+CI/CD
+
+### Trunk-Based Development, Feature Branch e Git Flow (Estratégias de Branch)
+
+Depende muito do Continuous Integrations
+
+Trunk-Based Development:
+Usar como base o tronco (main)
+
+Sempre integrar diretamente no tronco da main as implementações
+
+Feature Branch:
+para cada modificações no sistema, criar uma nova branch e depois subir para a main
+Github trouxe o pull request!
+GitHub Flow
+
+Git Flow:
+
+Criar uma Branch Development e a partir dela para cada feature criar uma nova branch
+Tratar bugs: criar uma branch de hotfix para correção do bug e subir o mais rápido para a main
+Qualquer alteração na main, fazer merge na branch de development e feature branch.
+
+Quando terminar a feature development fazer um merge para a development, ao final de uma sprint deve ser feito um merge para a branch de Release(homolog)
+Nessa release deve ser realizado testes e avaliação e caso encontrar algum bug corrigir direto nela e fazer o merge para a main e para a development
+Utilizar mais as tags do Git
+
+Trunk-Based Development(Multiplayer):
+Criar Feature Flags - Ligar e desligar as features para as pessoas, assim é possível subir novas mudanças no código sem que aparem para os usuários "normais"
+São condicionais que podem ser ativados para usuários selecionados "beta tester"
+E assim pode ir integrando a main sem problemas
+
+Branch by Abstraction -> Tudo na branch main (trunk)
+1 - Cria uma interface de abstração de um módulo antigo que ainda conversa com o antigo
+2 - Faz com que partes do código apontem para essa abstração de conversa (interface)
+3 - Vai sendo desenvolvido em paralelo a nova versão do módulo
+4 faz com que a abstração converse com o novo módulo
+5 - Faz com que os códigos mudam e conversem com o novo módulo
+
+Pair Programming ->
