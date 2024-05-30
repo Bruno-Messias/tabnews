@@ -1154,3 +1154,68 @@ Branch by Abstraction -> Tudo na branch main (trunk)
 5 - Faz com que os códigos mudam e conversem com o novo módulo
 
 Pair Programming ->
+
+## Dia 29
+
+### Estabilizar ambiente local
+
+Problema de ordem de serviços, a subida do banco de dados não esta completa quando tenta subir as migrations, Race Condition.
+Ao tentar subir as migrations pode ser que o banco de dados não tenha subido antes, causando um erro.
+
+Adicionar o arquivo de wait-for-postgres para rodar de forma recursiva e adicionar o exec do child process:
+
+`docker exec postgres-dev pg_isready --host localhost`, onde o --host verifica se esta rodando o postgres na conexão tcp/ip necessário para rodar as migrations.
+
+Novo comando Docker: `docker system prune` deleta todos os arquivos do docker que estão armazenados.
+
+Ideia Interessante sobre docker:
+
+>Meu sonho também sempre foi rodar o projeto todo com um comando, consegui algo muito parecido com docker compose up.
+>Minha estratégia hoje é utilizar tudo em contêiners e para isso criei o compose.yml abaixo.
+>O que vocês acham disso?
+
+```docker
+name: clone-tabnews
+
+x-node-base: &node-base
+    image: node:20.13.1-alpine3.19
+    user: node:node
+    working_dir: &working_dir /var/www
+    volumes:
+        - .:/var/www
+
+services:
+    node-install:
+        <<: *node-base
+        entrypoint: npm install --force
+    mariadb:
+        image: mariadb:11.0.2
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+            MARIADB_DATABASE: ${DB_NAME}
+        volumes:
+            - ./infra/data/mariadb/db_data:/var/lib/mysql
+        restart: unless-stopped
+        healthcheck:
+            test: mariadb-admin ping -h 127.0.0.1 -u root --password="${DB_PASSWORD}"
+            interval: 2s
+            timeout: 10s
+            retries: 20
+    migrations:
+        <<: *node-base
+        depends_on:
+            mariadb:
+                condition: service_healthy
+            node-install:
+                condition: service_completed_successfully
+        entrypoint: npm run migrate:up
+    app:
+        <<: *node-base
+        ports:
+            - ${APP_PORT:-3000}:3000
+        depends_on:
+            migrations:
+                condition: service_completed_successfully
+        command: npm run dev
+```
