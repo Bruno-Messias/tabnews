@@ -1219,3 +1219,8 @@ services:
                 condition: service_completed_successfully
         command: npm run dev
 ```
+
+### Estabilizar Testes
+
+Paralelismo
+
