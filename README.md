@@ -1223,4 +1223,3 @@ services:
 ### Estabilizar Testes
 
 Paralelismo
-
