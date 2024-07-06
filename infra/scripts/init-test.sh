@@ -1,0 +1,1 @@
+npm run services:up && concurrently -n next,jest --hide next -k -s command-jest "next dev" "jest --runInBand --verbose"
