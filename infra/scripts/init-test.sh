@@ -1,1 +1,1 @@
-npm run services:up && npm run wait-for-postgres && concurrently -n next,jest --hide next -k -s command-jest 'next dev' 'jest --runInBand'
+npm run services:up && concurrently -n next,jest --hide next -k -s command-jest 'next dev' 'jest --runInBand --verbose'
