@@ -1170,9 +1170,9 @@ Novo comando Docker: `docker system prune` deleta todos os arquivos do docker qu
 
 Ideia Interessante sobre docker:
 
->Meu sonho também sempre foi rodar o projeto todo com um comando, consegui algo muito parecido com docker compose up.
->Minha estratégia hoje é utilizar tudo em contêiners e para isso criei o compose.yml abaixo.
->O que vocês acham disso?
+> Meu sonho também sempre foi rodar o projeto todo com um comando, consegui algo muito parecido com docker compose up.
+> Minha estratégia hoje é utilizar tudo em contêiners e para isso criei o compose.yml abaixo.
+> O que vocês acham disso?
 
 ```docker
 name: clone-tabnews
