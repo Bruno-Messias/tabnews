@@ -4,7 +4,6 @@
   "description": "Project to recreate Tab News from the course of curso.dev",
   "main": "index.js",
   "scripts": {
-    "predev": "",
     "dev": "infra/scripts/init-dev.sh",
     "test": "infra/scripts/init-test.sh",
     "posttest": "npm run services:stop",
