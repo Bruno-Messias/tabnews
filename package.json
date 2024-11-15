@@ -4,7 +4,8 @@
   "description": "Project to recreate Tab News from the course of curso.dev",
   "main": "index.js",
   "scripts": {
-    "dev": "infra/scripts/init-dev.sh",
+    "dev": "trap 'exit $?' INT TERM; infra/scripts/init-dev.sh",
+    "postdev": "npm run services:stop",
     "test": "infra/scripts/init-test.sh",
     "posttest": "npm run services:stop",
     "test:watch": "jest --watchAll --runInBand",
