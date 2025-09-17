@@ -1,5 +1,5 @@
 {
-  "name": "tabnews2",
+  "name": "tabnews",
   "version": "1.0.0",
   "description": "Project to recreate Tab News from the course of curso.dev",
   "main": "index.js",
